@@ -1,117 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welkom naar de homometer!</title>
-  <link rel="icon" href="icon.ico">
+  <title>De Homo Meter</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       text-align: center;
-      background-color: #121212;
+      background-color: #222;
       color: white;
     }
-    .container {
-      padding: 50px;
-    }
-    #resultFrame {
-      display: none;
-      background-color: rgba(0, 0, 0, 0.8);
+    .frame {
+      background-color: rgba(0.1, 0.1, 0.1, 0.8);
       width: 650px;
-      margin: 0 auto;
+      height: 450px;
+      margin: auto;
       padding: 20px;
-      color: white;
       border-radius: 10px;
     }
-    video {
-      width: 100%;
-      height: auto;
+    .dropdown, .input-box, .button {
+      margin: 15px;
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+    }
+    .title {
+      font-size: 58px;
+    }
+    .description {
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Welkom naar de homometer!</h1>
-    <p>Download de <a href="homo.zip" download>Homo Meter!</a></p>
 
-    <div id="inputForm">
-      <label for="nameInput">Naam (of stad voor Tomboy/Femboy Locator):</label>
-      <input type="text" id="nameInput" placeholder="Enter name or number">
-      
-      <select id="dropdown">
-        <option value="0">Selecteer een optie</option>
-        <option value="1">Homo Meter</option>
-        <option value="2">Lesbian Locator</option>
-        <option value="3">Femboy Finder</option>
-        <option value="4">Tomboy Tracker</option>
-      </select>
-      
-      <button id="startButton">Vind het uit</button>
-    </div>
-    
-    <div id="resultFrame">
-      <h2>Resultaat</h2>
-      <p id="resultText"></p>
-      <video id="resultVideo" controls>
-        <source src="countdown.mp4" type="video/mp4">
-      </video>
-      <audio id="resultSFX">
-        <source src="result.mp3" type="audio/mp3">
-      </audio>
-    </div>
+  <h1 class="title">De Homo Meter</h1>
+  <p class="description">De enige echte "Homo Meter"</p>
+
+  <div class="frame">
+    <label id="textLabel" for="nameInput">naam aub:</label><br>
+    <input type="text" id="nameInput" class="input-box" placeholder="Vul je naam in..."><br>
+
+    <label for="dropdown" id="dropdownLabel">Selecteer een optie:</label><br>
+    <select id="dropdown" class="dropdown">
+      <option value="">Selecteer...</option>
+      <option value="1">Homo Meter</option>
+      <option value="2">Lesbian Locator</option>
+      <option value="3">Femboy Finder</option>
+      <option value="4">Tomboy Tracker</option>
+    </select><br>
+
+    <button id="submitButton" class="button">Vind het uit.</button>
+    <p id="resultText"></p>
   </div>
 
-  <audio id="backgroundMusic" autoplay>
-    <source src="music1.mp3" type="audio/mp3">
-  </audio>
-
   <script>
-    // Play random background music on page load
-    const musicList = ["music1.mp3", "music2.mp3", "music3.mp3", "music4.mp3"];
-    const backgroundMusic = document.getElementById("backgroundMusic");
+    let percentage = Math.floor(Math.random() * 101);
+    const dropdown = document.getElementById('dropdown');
+    const submitButton = document.getElementById('submitButton');
+    const resultText = document.getElementById('resultText');
+    const nameInput = document.getElementById('nameInput');
+    const dropdownLabel = document.getElementById('dropdownLabel');
+    const textLabel = document.getElementById('textLabel');
+    
+    // Verander de labeltekst wanneer de dropdown verandert
+    dropdown.addEventListener('change', function() {
+      if (dropdown.value == "3" || dropdown.value == "4") {
+        textLabel.textContent = "inwoners van jouw stad:";
+      } else {
+        textLabel.textContent = "naam aub:";
+      }
+    });
 
-    function playRandomMusic() {
-      const randomIndex = Math.floor(Math.random() * musicList.length);
-      backgroundMusic.src = musicList[randomIndex];
-      backgroundMusic.play();
-    }
-    playRandomMusic();
+    submitButton.addEventListener('click', function() {
+      const selectedValue = dropdown.value;
+      const name = nameInput.value.trim();
 
-    // Handle button click
-    document.getElementById("startButton").onclick = function() {
-      const input = document.getElementById("nameInput").value;
-      const dropdown = document.getElementById("dropdown").value;
-      const resultFrame = document.getElementById("resultFrame");
-      const resultText = document.getElementById("resultText");
-      const resultVideo = document.getElementById("resultVideo");
-      const resultSFX = document.getElementById("resultSFX");
-
-      if (dropdown === "3" || dropdown === "4") {
-        if (isNaN(input)) {
-          alert("Please enter a valid number for Tomboy/Femboy Locator!");
-          return;
+      if (selectedValue && name !== "") {
+        let resultTextContent = "";
+        
+        if (selectedValue == "1") {
+          resultTextContent = `${name} is ${percentage}% homo!`;
+        } else if (selectedValue == "2") {
+          resultTextContent = `${name} is ${percentage}% lesbisch!`;
+        } else if (selectedValue == "3" || selectedValue == "4") {
+          const population = parseInt(name);
+          if (isNaN(population)) {
+            resultTextContent = "VUL EEN GETAL IN, ALSJEBLIEFT";
+          } else {
+            const result = selectedValue == "3" ? population * 0.015 : population * 0.03;
+            resultTextContent = `Je hebt ${result.toFixed(2)} ${selectedValue == "3" ? "femboys" : "tomboys"} in je stad.`;
+          }
         }
+        
+        // Toon resultaat
+        resultText.textContent = resultTextContent;
+      } else {
+        resultText.textContent = "Voer een geldige naam of nummer in!";
       }
-
-      let result = "";
-      if (dropdown === "1") {
-        result = `${input} is ${Math.floor(Math.random() * 100)}% homo!`;
-      } else if (dropdown === "2") {
-        result = `${input} is ${Math.floor(Math.random() * 100)}% lesbian!`;
-      } else if (dropdown === "3") {
-        result = `You have ${input * 0.015} femboys in your city.`;
-      } else if (dropdown === "4") {
-        result = `You have ${input * 0.03} tomboys in your city.`;
-      }
-
-      resultText.textContent = result;
-      resultFrame.style.display = "block";
-
-      // Play the video and sound effect after results
-      resultVideo.play();
-      resultSFX.play();
-    };
+    });
   </script>
+
 </body>
 </html>
