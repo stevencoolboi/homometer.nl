@@ -10,6 +10,12 @@
       text-align: center;
       background-color: #222;
       color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start; /* Keeps the content at the top */
+      height: 100vh;
+      margin: 0;
     }
     .frame {
       background-color: rgba(0.1, 0.1, 0.1, 0.8);
@@ -46,7 +52,7 @@
       transform: translateX(-50%);
     }
     #downloadLink {
-      margin-top: -30px;
+      margin-top: 10px; /* Adjust this value to move the link higher or lower */
       font-size: 16px;
       color: #00aaff;
       text-decoration: none;
@@ -61,7 +67,8 @@
   <h1 class="title">De Homo Meter</h1>
   <p class="description">De enige echte "Homo Meter"</p>
 
-  <a id="downloadLink" href="https://github.com/stevencoolboi/homometer.nl/raw/main/homo.zip" download>omdat ik shit ben in html, download hier de complete lua versie</a>
+  <!-- Download Link -->
+  <a id="downloadLink" href="https://github.com/your-username/your-repository-name/raw/main/homo_meter_lua.zip" download>omdat ik shit ben in html, download hier de complete lua versie</a>
 
   <div class="frame" id="inputFrame">
     <label id="textLabel" for="nameInput">naam aub:</label><br>
@@ -137,7 +144,7 @@
         } else if (selectedValue == "3" || selectedValue == "4") {
           const population = parseInt(name);
           if (isNaN(population)) {
-            resultTextContent = "VUL EEN GETAL IN, ALSJEBLIEFT";
+            resultTextContent = "DOE EEN GETAL VERDOMME >:(";
           } else {
             const result = selectedValue == "3" ? population * 0.015 : population * 0.03;
             resultTextContent = `Je hebt ${result.toFixed(2)} ${selectedValue == "3" ? "femboys" : "tomboys"} in je stad.`;
