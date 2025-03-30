@@ -1,56 +1,117 @@
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>De Homo Meter</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welkom naar de homometer!</title>
+  <link rel="icon" href="icon.ico">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #121212;
+      color: white;
+    }
+    .container {
+      padding: 50px;
+    }
+    #resultFrame {
+      display: none;
+      background-color: rgba(0, 0, 0, 0.8);
+      width: 650px;
+      margin: 0 auto;
+      padding: 20px;
+      color: white;
+      border-radius: 10px;
+    }
+    video {
+      width: 100%;
+      height: auto;
+    }
+  </style>
 </head>
 <body>
-    <h1>De Homo Meter</h1>
-    <p>De enige echte "Homo Meter"</p>
+  <div class="container">
+    <h1>Welkom naar de homometer!</h1>
+    <p>Download de <a href="homo.zip" download>Homo Meter!</a></p>
 
-    <label for="name">Voer uw naam in:</label>
-    <input type="text" id="name">
+    <div id="inputForm">
+      <label for="nameInput">Naam (of stad voor Tomboy/Femboy Locator):</label>
+      <input type="text" id="nameInput" placeholder="Enter name or number">
+      
+      <select id="dropdown">
+        <option value="0">Selecteer een optie</option>
+        <option value="1">Homo Meter</option>
+        <option value="2">Lesbian Locator</option>
+        <option value="3">Femboy Finder</option>
+        <option value="4">Tomboy Tracker</option>
+      </select>
+      
+      <button id="startButton">Vind het uit</button>
+    </div>
     
-    <label for="option">Kies een optie:</label>
-    <select id="option">
-        <option value="homo">Homo Meter</option>
-        <option value="lesbian">Lesbian Locator</option>
-        <option value="femboy">Femboy Finder</option>
-        <option value="tomboy">Tomboy Tracker</option>
-    </select>
+    <div id="resultFrame">
+      <h2>Resultaat</h2>
+      <p id="resultText"></p>
+      <video id="resultVideo" controls>
+        <source src="countdown.mp4" type="video/mp4">
+      </video>
+      <audio id="resultSFX">
+        <source src="result.mp3" type="audio/mp3">
+      </audio>
+    </div>
+  </div>
 
-    <button onclick="calculate()">Vind het uit</button>
-    
-    <div id="result"></div>
+  <audio id="backgroundMusic" autoplay>
+    <source src="music1.mp3" type="audio/mp3">
+  </audio>
 
-    <video id="video" width="650" height="450" controls>
-        <source src="files/graphics/video/countdown.mp4" type="video/mp4">
-        Uw browser ondersteunt geen video.
-    </video>
+  <script>
+    // Play random background music on page load
+    const musicList = ["music1.mp3", "music2.mp3", "music3.mp3", "music4.mp3"];
+    const backgroundMusic = document.getElementById("backgroundMusic");
 
-    <audio id="music" loop>
-        <source src="files/audio/music/coolSong1.mp3" type="audio/mpeg">
-        Uw browser ondersteunt geen audio.
-    </audio>
+    function playRandomMusic() {
+      const randomIndex = Math.floor(Math.random() * musicList.length);
+      backgroundMusic.src = musicList[randomIndex];
+      backgroundMusic.play();
+    }
+    playRandomMusic();
 
-    <script>
-        function calculate() {
-            let name = document.getElementById("name").value;
-            let option = document.getElementById("option").value;
-            let percentage = Math.floor(Math.random() * 101);
-            let resultText = "";
+    // Handle button click
+    document.getElementById("startButton").onclick = function() {
+      const input = document.getElementById("nameInput").value;
+      const dropdown = document.getElementById("dropdown").value;
+      const resultFrame = document.getElementById("resultFrame");
+      const resultText = document.getElementById("resultText");
+      const resultVideo = document.getElementById("resultVideo");
+      const resultSFX = document.getElementById("resultSFX");
 
-            if (option === "homo") resultText = `${name} is ${percentage}% homo!`;
-            else if (option === "lesbian") resultText = `${name} is ${percentage}% lesbisch!`;
-            else if (option === "femboy") resultText = `U heeft ${parseInt(name) * 0.015} femboys in uw stad.`;
-            else if (option === "tomboy") resultText = `U heeft ${parseInt(name) * 0.03} tomboys in uw stad.`;
-
-            document.getElementById("result").innerText = resultText;
-            document.getElementById("video").play();
-            document.getElementById("music").play();
+      if (dropdown === "3" || dropdown === "4") {
+        if (isNaN(input)) {
+          alert("Please enter a valid number for Tomboy/Femboy Locator!");
+          return;
         }
-    </script>
+      }
+
+      let result = "";
+      if (dropdown === "1") {
+        result = `${input} is ${Math.floor(Math.random() * 100)}% homo!`;
+      } else if (dropdown === "2") {
+        result = `${input} is ${Math.floor(Math.random() * 100)}% lesbian!`;
+      } else if (dropdown === "3") {
+        result = `You have ${input * 0.015} femboys in your city.`;
+      } else if (dropdown === "4") {
+        result = `You have ${input * 0.03} tomboys in your city.`;
+      }
+
+      resultText.textContent = result;
+      resultFrame.style.display = "block";
+
+      // Play the video and sound effect after results
+      resultVideo.play();
+      resultSFX.play();
+    };
+  </script>
 </body>
 </html>
