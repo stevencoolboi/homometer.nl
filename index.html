@@ -45,12 +45,23 @@
       left: 50%;
       transform: translateX(-50%);
     }
+    #downloadLink {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #00aaff;
+      text-decoration: none;
+    }
+    #downloadLink:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
 
   <h1 class="title">De Homo Meter</h1>
   <p class="description">De enige echte "Homo Meter"</p>
+
+  <a id="downloadLink" href="https://github.com/stevencoolboi/homometer.nl/raw/main/homo.zip" download>omdat ik shit ben in html, download hier de complete lua versie</a>
 
   <div class="frame" id="inputFrame">
     <label id="textLabel" for="nameInput">naam aub:</label><br>
