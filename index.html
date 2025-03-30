@@ -1,41 +1,110 @@
-<audio controls loop>
-    <source src="https://github.com/stevencoolboi/homometer.nl/raw/main/gamerMusic.mp3" type="audio/mpeg">
-</audio>
-
-
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homometer</title>
+    <title>De Homo Meter</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            flex-direction: column;
+            text-align: center;
+            background-color: #222;
+            color: white;
         }
-        h1 {
-            font-size: 3rem;
-            font-weight: bold;
+        .container {
+            margin-top: 50px;
         }
-        a {
-            margin-top: 20px;
-            font-size: 1.5rem;
-            text-decoration: none;
-            color: #007bff;
+        .frame {
+            background-color: rgba(10, 10, 10, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
         }
-        a:hover {
-            text-decoration: underline;
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
-    <h1>Welkom naar de Homometer!</h1>
-    <a href="https://github.com/stevencoolboi/homometer.nl/raw/main/homo.zip" download>Download de homo meter!</a>
+
+    <div class="container">
+        <h1>De Homo Meter</h1>
+        <p>De enige echte "Homo Meter"</p>
+
+        <div class="frame">
+            <label for="nameOrPopulation" id="labelText">Naam aub:</label>
+            <input type="text" id="nameOrPopulation">
+            <br>
+
+            <select id="dropdown">
+                <option value="" disabled selected>Selecteer een optie</option>
+                <option value="1">Homo Meter</option>
+                <option value="2">Lesbian Locator</option>
+                <option value="3">Femboy Finder</option>
+                <option value="4">Tomboy Tracker</option>
+            </select>
+            <br>
+
+            <button onclick="calculate()">Vind het uit.</button>
+        </div>
+
+        <div class="frame" id="resultFrame" style="display: none; margin-top: 20px;">
+            <h2>Resultaat</h2>
+            <p id="resultText"></p>
+        </div>
+
+        <audio id="music" loop>
+            <source src="files/audio/music/coolSong1.mp3" type="audio/mpeg">
+            <source src="files/audio/music/fortnite.mp3" type="audio/mpeg">
+            <source src="files/audio/music/suicide.mp3" type="audio/mpeg">
+            <source src="files/audio/music/mlggaming.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function calculate() {
+            let input = document.getElementById("nameOrPopulation").value;
+            let option = document.getElementById("dropdown").value;
+            let resultText = "";
+            let percentage = getRandomInt(0, 100);
+
+            if (option == "1") {
+                resultText = input + " is " + percentage + "% homo!";
+            } else if (option == "2") {
+                resultText = input + " is " + percentage + "% lesbisch!";
+            } else if (option == "3") {
+                let num = parseFloat(input);
+                if (!isNaN(num)) {
+                    resultText = "U heeft " + (num * 0.015).toFixed(2) + " femboys in uw stad.";
+                } else {
+                    resultText = "ENTER A NUMBER DAMMIT";
+                }
+            } else if (option == "4") {
+                let num = parseFloat(input);
+                if (!isNaN(num)) {
+                    resultText = "U heeft " + (num * 0.03).toFixed(2) + " tomboys in uw stad.";
+                } else {
+                    resultText = "DOE EEN NUMMER VERDOMME";
+                }
+            }
+
+            document.getElementById("resultText").innerText = resultText;
+            document.getElementById("resultFrame").style.display = "block";
+
+            // Stop previous music and play a random one
+            let music = document.getElementById("music");
+            let sources = music.getElementsByTagName("source");
+            let randomIndex = getRandomInt(0, sources.length - 1);
+            music.src = sources[randomIndex].src;
+            music.play();
+        }
+    </script>
+
 </body>
 </html>
