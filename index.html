@@ -34,6 +34,9 @@
     .description {
       font-size: 14px;
     }
+    #resultFrame {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -41,7 +44,7 @@
   <h1 class="title">De Homo Meter</h1>
   <p class="description">De enige echte "Homo Meter"</p>
 
-  <div class="frame">
+  <div class="frame" id="inputFrame">
     <label id="textLabel" for="nameInput">naam aub:</label><br>
     <input type="text" id="nameInput" class="input-box" placeholder="Vul je naam in..."><br>
 
@@ -54,7 +57,11 @@
       <option value="4">Tomboy Tracker</option>
     </select><br>
 
-    <button id="submitButton" class="button">Vind het uit.</button>
+    <button id="submitButton" class="button" style="display: none;">Vind het uit.</button>
+  </div>
+
+  <div class="frame" id="resultFrame">
+    <h2>Resultaat</h2>
     <p id="resultText"></p>
   </div>
 
@@ -66,7 +73,9 @@
     const nameInput = document.getElementById('nameInput');
     const dropdownLabel = document.getElementById('dropdownLabel');
     const textLabel = document.getElementById('textLabel');
-    
+    const inputFrame = document.getElementById('inputFrame');
+    const resultFrame = document.getElementById('resultFrame');
+
     // Verander de labeltekst wanneer de dropdown verandert
     dropdown.addEventListener('change', function() {
       if (dropdown.value == "3" || dropdown.value == "4") {
@@ -74,7 +83,20 @@
       } else {
         textLabel.textContent = "naam aub:";
       }
+      
+      checkInputs();
     });
+
+    nameInput.addEventListener('input', checkInputs);
+
+    function checkInputs() {
+      const name = nameInput.value.trim();
+      if (name !== "" && dropdown.value !== "") {
+        submitButton.style.display = "block";
+      } else {
+        submitButton.style.display = "none";
+      }
+    }
 
     submitButton.addEventListener('click', function() {
       const selectedValue = dropdown.value;
@@ -96,6 +118,10 @@
             resultTextContent = `Je hebt ${result.toFixed(2)} ${selectedValue == "3" ? "femboys" : "tomboys"} in je stad.`;
           }
         }
+        
+        // Verberg de input frame en toon de resultaat frame
+        inputFrame.style.display = "none";
+        resultFrame.style.display = "block";
         
         // Toon resultaat
         resultText.textContent = resultTextContent;
