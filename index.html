@@ -18,6 +18,7 @@
       margin: auto;
       padding: 20px;
       border-radius: 10px;
+      position: relative;
     }
     .dropdown, .input-box, .button {
       margin: 15px;
@@ -36,6 +37,13 @@
     }
     #resultFrame {
       display: none;
+    }
+    #submitButton {
+      display: none;
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
     }
   </style>
 </head>
@@ -57,7 +65,7 @@
       <option value="4">Tomboy Tracker</option>
     </select><br>
 
-    <button id="submitButton" class="button" style="display: none;">Vind het uit.</button>
+    <button id="submitButton" class="button">Vind het uit.</button>
   </div>
 
   <div class="frame" id="resultFrame">
@@ -95,6 +103,12 @@
         submitButton.style.display = "block";
       } else {
         submitButton.style.display = "none";
+      }
+
+      if (dropdown.value === "") {
+        textLabel.textContent = "";
+      } else {
+        textLabel.textContent = dropdown.value == "3" || dropdown.value == "4" ? "inwoners van jouw stad:" : "naam aub:";
       }
     }
 
