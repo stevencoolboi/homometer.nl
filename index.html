@@ -13,7 +13,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* Keeps the content at the top */
+      justify-content: flex-start;
       height: 100vh;
       margin: 0;
     }
@@ -52,7 +52,7 @@
       transform: translateX(-50%);
     }
     #downloadLink {
-      margin-top: 0px; /* Adjust this value to move the link higher or lower */
+      margin-top: 0px;
       font-size: 16px;
       color: #00aaff;
       text-decoration: none;
@@ -65,9 +65,10 @@
 <body>
 
   <h1 class="title">De Homo Meter</h1>
-   <a id="downloadLink" href="https://github.com/stevencoolboi/homometer.nl/raw/main/homo.zip" download>download hier de GAMER versie (want die is ook veel beter)</a>
+  <a id="downloadLink" href="https://stevencoolboi.itch.io/homometer" target="_blank">
+    speel hier de GAMER versie (want die is ook veel beter)
+  </a>
   <p class="description">De enige echte "Homo Meter"</p>
- 
 
   <div class="frame" id="inputFrame">
     <label id="textLabel" for="nameInput">naam aub:</label><br>
@@ -101,14 +102,12 @@
     const inputFrame = document.getElementById('inputFrame');
     const resultFrame = document.getElementById('resultFrame');
 
-    // Verander de labeltekst wanneer de dropdown verandert
     dropdown.addEventListener('change', function() {
       if (dropdown.value == "3" || dropdown.value == "4") {
         textLabel.textContent = "inwoners van jouw stad:";
       } else {
         textLabel.textContent = "naam aub:";
       }
-      
       checkInputs();
     });
 
@@ -150,11 +149,8 @@
           }
         }
         
-        // Verberg de input frame en toon de resultaat frame
         inputFrame.style.display = "none";
         resultFrame.style.display = "block";
-        
-        // Toon resultaat
         resultText.textContent = resultTextContent;
       } else {
         resultText.textContent = "DOE EEN GETAL VERDOMME >:(";
